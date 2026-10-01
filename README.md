@@ -4,7 +4,7 @@
 
 **[在线体验 →](https://kiwizhong-1523.github.io/Postcard-Line-Art-Generator/)**
 
-![线稿效果示例](screenshot-sketch.jpg)
+![线稿效果示例](screenshot-sketch.png)
 
 ## 使用步骤
 
