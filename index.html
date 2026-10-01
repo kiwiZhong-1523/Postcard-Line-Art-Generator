@@ -73,6 +73,24 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--line)}
   .content{min-height:50dvh}
 }
+
+/* ── Terms modal ── */
+#termsFooter{font-size:12px;color:var(--muted);margin-top:8px}
+#termsFooter a{color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+#termsFooter a:hover{color:var(--text)}
+dialog#termsDlg{border:none;border-radius:12px;padding:0;max-width:560px;width:calc(100% - 40px);background:var(--panel);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog#termsDlg::backdrop{background:rgba(0,0,0,.5);backdrop-filter:blur(2px)}
+.tdlg-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 0}
+.tdlg-head h2{font:400 20px/1.2 "Ma Shan Zheng",cursive;margin:0}
+.tdlg-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;border-radius:6px;line-height:1}
+.tdlg-close:hover{color:var(--text);background:var(--line)}
+.tdlg-body{padding:16px 24px 24px;overflow-y:auto;max-height:70dvh;font-size:14px;line-height:1.7}
+.tdlg-body h3{font-size:13px;font-weight:600;color:var(--accent);margin:18px 0 4px;text-transform:none}
+.tdlg-body h3:first-child{margin-top:0}
+.tdlg-body p{margin:0 0 4px}
+.tdlg-body ul{margin:4px 0;padding-left:18px}
+.tdlg-body ul li{margin-bottom:3px}
+.tdlg-divider{border:none;border-top:1px solid var(--line);margin:14px 0}
 </style>
 </head>
 <body>
@@ -84,7 +102,53 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
     <label for="fileInput" class="main" style="font-size:16px;padding:12px 28px;cursor:pointer;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--panel);font:inherit;display:inline-block">选择照片</label>
   </div>
   <input type="file" id="fileInput" accept="image/*" hidden>
+  <p id="termsFooter"><a id="termsLink">使用条款 &amp; 隐私政策</a></p>
 </div>
+
+<!-- ══ Terms Dialog ══ -->
+<dialog id="termsDlg" aria-labelledby="termsDlgTitle">
+  <div class="tdlg-head">
+    <h2 id="termsDlgTitle">使用条款 &amp; 隐私政策</h2>
+    <button class="tdlg-close" id="termsDlgClose" aria-label="关闭">✕</button>
+  </div>
+  <div class="tdlg-body">
+    <h3>服务说明</h3>
+    <p>本工具以现有状态免费开放使用，作者不保证其持续可用或适合特定用途，使用前请自行评估。</p>
+
+    <hr class="tdlg-divider">
+    <h3>用户素材</h3>
+    <p>您使用本工具时，须保证对所上传图片拥有合法的使用权。因上传侵权内容、违法内容或涉及他人隐私的图片所引发的一切法律责任，由用户自行承担。</p>
+
+    <hr class="tdlg-divider">
+    <h3>输出归属</h3>
+    <p>工具生成的线稿图像，作者不主张任何版权或知识产权。生成结果的权利归用户所有，可用于个人及商业用途。</p>
+    <p>商业使用时，请在作品说明中注明来源：</p>
+    <ul>
+      <li><strong>数字作品</strong>（社交媒体、网站、电子出版物等）：注明「线稿由线稿明信片生成器生成」并附上工具链接：<a href="https://kiwizhong-1523.github.io/Postcard-Line-Art-Generator/" target="_blank" rel="noopener">https://kiwizhong-1523.github.io/Postcard-Line-Art-Generator/</a></li>
+      <li><strong>实物作品</strong>（印刷品、明信片、周边产品等）：在版权页或说明处注明「线稿由线稿明信片生成器生成」即可。</li>
+    </ul>
+
+    <hr class="tdlg-divider">
+    <h3>禁止用途</h3>
+    <p>禁止上传违法、侵权、含有不当内容或涉及他人隐私的图片。</p>
+
+    <hr class="tdlg-divider">
+    <h3>免责声明</h3>
+    <p>对因使用本工具产生的任何直接或间接损失（包括但不限于数据丢失、业务中断或其他损害），作者不承担任何责任。</p>
+
+    <hr class="tdlg-divider">
+    <h3>隐私说明</h3>
+    <ul>
+      <li><strong>图片处理</strong>：所有处理完全在您的浏览器本地完成，图片数据不会传输至任何服务器或第三方。</li>
+      <li><strong>字体服务</strong>：页面启动时会从 Google Fonts（fonts.googleapis.com）加载字体，Google 可能依据其隐私政策记录该请求的访问信息（如 IP 地址、浏览器版本）。</li>
+      <li><strong>数据收集</strong>：本工具不使用 Cookie，不集成任何统计或分析服务，不收集、存储您的任何个人信息或行为数据。</li>
+    </ul>
+
+    <hr class="tdlg-divider">
+    <h3>联系方式</h3>
+    <p>如有疑问或反馈，请发送邮件至：<a href="mailto:pszhonga04@gmail.com">pszhonga04@gmail.com</a></p>
+  </div>
+</dialog>
 
 <!-- ══ PAGE 2: Crop / Orientation ══ -->
 <div id="p2" class="page">
@@ -616,6 +680,12 @@ function setComp(m){compMode=m;['cmpNone','cmpLR','cmpTB'].forEach(id=>$(id).cla
 $('cmpNone').onclick=()=>setComp(null);$('cmpLR').onclick=()=>setComp('lr');$('cmpTB').onclick=()=>setComp('tb');
 
 if(document.fonts)document.fonts.ready.then(()=>{if(gray)drawCard()}).catch(()=>{});
+
+// ── Terms dialog ──
+const termsDlg=document.getElementById('termsDlg');
+document.getElementById('termsLink').addEventListener('click',()=>termsDlg.showModal());
+document.getElementById('termsDlgClose').addEventListener('click',()=>termsDlg.close());
+termsDlg.addEventListener('click',e=>{if(e.target===termsDlg)termsDlg.close()});
 
 // Apple touch icon (generated at runtime so no external PNG needed)
 (function(){
