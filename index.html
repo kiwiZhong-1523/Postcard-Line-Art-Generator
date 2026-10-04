@@ -229,7 +229,7 @@ dialog#termsDlg::backdrop{background:rgba(0,0,0,.5);backdrop-filter:blur(2px)}
     <h2>调整效果</h2>
     <p class="sub">微调线稿效果，添加文本后保存。</p>
     <label>线条细腻度 <b id="vDetail"></b></label>
-    <input type="range" id="detail" min="0" max="100" value="55">
+    <input type="range" id="detail" min="0" max="100" value="80">
     <label>线条粗细 <b id="vSigma"></b></label>
     <input type="range" id="sigma" min="8" max="26" value="12">
     <label>去除碎线 <b id="vClean"></b></label>
@@ -674,7 +674,15 @@ $('cv').addEventListener('pointermove',e=>{
 ['detail','sigma','clean','jit'].forEach(id=>$(id).addEventListener('input',()=>{clearTimeout(renderTimer);renderTimer=setTimeout(render,80)}));
 ['cap','capsize'].forEach(id=>$(id).addEventListener('input',drawCard));
 
-$('save').onclick=()=>{const a=document.createElement('a');a.download=compMode?'postcard-compare.png':'postcard.png';a.href=$('cv').toDataURL('image/png');a.click()};
+$('save').onclick=()=>{
+  const dataUrl=$('cv').toDataURL('image/png');
+  const filename=compMode?'postcard-compare.png':'postcard.png';
+  // iOS Safari ignores the download attribute; open in new tab instead
+  if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
+    const w=window.open('','_blank');
+    if(w){w.document.write('<html><body style="margin:0;background:#111;display:flex;flex-direction:column;align-items:center;padding:24px;box-sizing:border-box"><p style="color:#ccc;font-family:-apple-system,sans-serif;font-size:15px;text-align:center;margin:0 0 16px">长按图片 → 存储到照片图库</p><img src="'+dataUrl+'" style="max-width:100%;border-radius:4px"></body></html>')}
+  }else{const a=document.createElement('a');a.download=filename;a.href=dataUrl;a.click()}
+};
 $('back3').onclick=()=>showPage('p3');
 function setComp(m){compMode=m;['cmpNone','cmpLR','cmpTB'].forEach(id=>$(id).classList.remove('sel'));$(m==='lr'?'cmpLR':m==='tb'?'cmpTB':'cmpNone').classList.add('sel');drawCard()}
 $('cmpNone').onclick=()=>setComp(null);$('cmpLR').onclick=()=>setComp('lr');$('cmpTB').onclick=()=>setComp('tb');
